@@ -131,7 +131,9 @@
                 <label>Người bán:</label>
                 <span>${requestScope.item.students.full_name}</span>
                 <c:if test="${not empty sessionScope.loggedInUser and sessionScope.loggedInUser.student_id != requestScope.item.student_id}">
-                    <button class="chat-button" onclick="startChat('${requestScope.item.students.student_id}', '${requestScope.item.itemName}')">Chat với người bán</button>
+                    <a href="${requestScope.item.students.facebook_url}" class="chat-button" target="_blank" rel="noopener noreferrer">
+                        Liên kết Facebook Người bán
+                    </a>
                 </c:if>
                 <c:if test="${empty sessionScope.loggedInUser}">
                     <p style="color: orange;">Bạn cần đăng nhập để chat với người bán.</p>
@@ -180,7 +182,7 @@
             <a href="${pageContext.request.contextPath}/ItemURL?service=listItem" class="back-link">Quay lại danh sách</a>
         </c:if>
     </div>
-    
+
     <script>
         function startChat(sellerId, itemName) {
             // Đây là nơi bạn sẽ xử lý logic để bắt đầu chat

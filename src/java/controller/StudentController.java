@@ -39,7 +39,8 @@ public class StudentController extends HttpServlet {
                         String email = request.getParameter("email");
                         String password = request.getParameter("password");
                         String full_name = request.getParameter("full_name");
-                        Student updatedStudent = new Student(email, password, full_name);
+                        String facebook_url = request.getParameter("facebook_url");
+                        Student updatedStudent = new Student(email, password, full_name, facebook_url);
                         updatedStudent.setStudent_id(updateId);
                         dao.updateStudent(updatedStudent);
                         response.sendRedirect("StudentURL?service=listStudent");
@@ -53,7 +54,8 @@ public class StudentController extends HttpServlet {
                         String email = request.getParameter("email");
                         String password = request.getParameter("password");
                         String full_name = request.getParameter("full_name");
-                        Student newStudent = new Student(email, password, full_name);
+                        String facebook_url = request.getParameter("facebook_url");
+                        Student newStudent = new Student(email, password, full_name, facebook_url);
                         dao.addStudent(newStudent);
                         response.sendRedirect("StudentURL?service=listStudent");
                     }

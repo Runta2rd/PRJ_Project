@@ -12,11 +12,15 @@
         <form action="${pageContext.request.contextPath}/signup" method="post">
             <div class="form-group">
                 <label for="fullName">Họ và tên:</label>
-                <input type="text" id="fullName" name="fullName" required>
+                <input type="text" id="full_name" name="full_name" required>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="facebook_url">Link Facebook:</label>
+                <input type="facebook_url" id="facebook_url" name="facebook_url" required>
             </div>
             <div class="form-group">
                 <label for="password">Mật khẩu:</label>

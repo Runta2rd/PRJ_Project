@@ -96,15 +96,15 @@
 <main class="create-item-page">
     <div class="create-item-container">
         <h2>Đăng Bán Sản Phẩm Mới</h2>
-        <form action="${pageContext.request.contextPath}/ItemURL?service=insertItem" method="post" enctype="multipart/form-data">
+        <form action="${pageContext.request.contextPath}/ItemURL?service=insertItem"" method="post">
             <c:if test="${not empty requestScope.errorMessage}">
                 <p class="error-message">${requestScope.errorMessage}</p>
             </c:if>
 
             <div class="form-group">
                 <label for="category_name">Danh mục:</label>
-                <select id="category_name" name="category_name" required>
-                    <option value="">-- Chọn danh mục --</option>
+                <select name="category_name" class="category-select">
+                    <option value="">-- Tất cả danh mục --</option>
                     <c:forEach var="category" items="${requestScope.categories}">
                         <option value="${category}">${category}</option>
                     </c:forEach>
@@ -113,7 +113,7 @@
 
             <div class="form-group">
                 <label for="itemName">Tên sản phẩm:</label>
-                <input type="text" id="itemName" name="itemName" required>
+                <input type="text" id="itemName" name="itemName" >
             </div>
 
             <div class="form-group">
@@ -129,7 +129,6 @@
             <div class="form-group">
                 <label for="image_url">Hình ảnh (URL):</label>
                 <input type="text" id="image_url" name="image_url">
-                <p class="help-text">Hoặc bạn có thể tải ảnh lên ở phần sau (chưa triển khai).</p>
             </div>
 
             <div class="form-group">
@@ -156,7 +155,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit">Đăng Bán</button>
+                <button type="submit" name="submit">Đăng Bán</button>
                 <a href="${pageContext.request.contextPath}/ItemURL?service=listItem">Hủy</a>
             </div>
         </form>
@@ -168,7 +167,7 @@
         const rentPriceSection = document.getElementById('rent_price_section');
         const salePriceSection = document.getElementById('sale_price_section');
 
-        rentCheckbox.addEventListener('change', function() {
+        rentCheckbox.addEventListener('change', function () {
             rentPriceSection.style.display = this.checked ? 'block' : 'none';
             if (this.checked) {
                 saleCheckbox.checked = false;
@@ -176,7 +175,7 @@
             }
         });
 
-        saleCheckbox.addEventListener('change', function() {
+        saleCheckbox.addEventListener('change', function () {
             salePriceSection.style.display = this.checked ? 'block' : 'none';
             if (this.checked) {
                 rentCheckbox.checked = false;

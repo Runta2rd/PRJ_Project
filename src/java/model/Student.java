@@ -7,17 +7,28 @@ public class Student {
     private String email;
     private String password;
     private String full_name;
+    private String facebook_url;
 
     // Default constructor
     public Student() {
     }
 
-    // Constructor with all fields (except student_id which is auto-increment)
-    public Student(String email, String password, String full_name) {
+    public Student(String email, String password, String full_name, String facebook_url) {
         this.email = email;
         this.password = password;
         this.full_name = full_name;
+        this.facebook_url = facebook_url;
     }
+
+    public String getFacebook_url() {
+        return facebook_url;
+    }
+
+    public void setFacebook_url(String facebook_url) {
+        this.facebook_url = facebook_url;
+    }
+
+  
 
     // Getters
     public Integer getStudent_id() {

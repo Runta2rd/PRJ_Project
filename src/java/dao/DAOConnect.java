@@ -1,8 +1,12 @@
 package dao;
 
+import static com.sun.source.util.DocTrees.instance;
+import static com.sun.source.util.JavacTask.instance;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +21,7 @@ import java.util.logging.Logger;
 public class DAOConnect {
 
     protected Connection connection;
+    private static DAOConnect instance = new DAOConnect();
 
     public DAOConnect() {
         //@Students: You are allowed to edit user, pass, url variables to fit 
@@ -34,6 +39,7 @@ public class DAOConnect {
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DAOConnect.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public static void main(String[] args) {
@@ -42,5 +48,25 @@ public class DAOConnect {
         } else {
             System.out.println("Connect failed");
         }
+    }
+
+    public ResultSet getData(String sql){
+        ResultSet rs = null;
+        try {
+            Statement state = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+            rs = state.executeQuery(sql);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return rs;
+    }
+    
+    public static DAOConnect getInstance() {
+        return instance;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }

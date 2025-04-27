@@ -20,44 +20,45 @@ public class SignUpController extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         String full_name = request.getParameter("full_name");
+        String facebook_url = request.getParameter("facebook_url");
 
         DAOStudent studentDAO = new DAOStudent();
 
         if (!password.equals(confirmPassword)) {
             request.setAttribute("errorMessage", "Mật khẩu không khớp!");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.getRequestDispatcher("/students/register.jsp").forward(request, response);
             return;
         }
 
         if (full_name == null || full_name.trim().isEmpty()) {
             request.setAttribute("errorMessage", "Vui lòng nhập họ và tên.");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.getRequestDispatcher("/students/register.jsp").forward(request, response);
             return;
         }
 
         if (password == null || password.length() < 6) {
             request.setAttribute("errorMessage", "Mật khẩu phải có ít nhất 6 ký tự.");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.getRequestDispatcher("/students/register.jsp").forward(request, response);
             return;
         }
 
         Student existingStudent = studentDAO.getStudentByEmail(email);
         if (existingStudent != null) {
             request.setAttribute("errorMessage", "Email này đã được đăng ký!");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.getRequestDispatcher("/students/register.jsp").forward(request, response);
             return;
         }
 
-        Student newStudent = new Student(email, password, full_name);
+        Student newStudent = new Student(email, password, full_name, facebook_url);
         int result = studentDAO.addStudent(newStudent);
 
         if (result > 0) {
-            // Registration successful, redirect to login page with a success message
-            response.sendRedirect("login.jsp?registerSuccess=true");
+            // Registration successful, redirect to /students/login.jsp with a success message
+            response.sendRedirect("students/login.jsp?registerSuccess=true");
         } else {
             // Registration failed (e.g., database error)
             request.setAttribute("errorMessage", "Đã có lỗi xảy ra trong quá trình đăng ký. Vui lòng thử lại sau.");
-            request.getRequestDispatcher("signup.jsp").forward(request, response);
+            request.getRequestDispatcher("/students/register.jsp").forward(request, response);
         }
     }
 
@@ -65,7 +66,7 @@ public class SignUpController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Forward to the signup form
-        request.getRequestDispatcher("signup.jsp").forward(request, response);
+        request.getRequestDispatcher("/students/register.jsp").forward(request, response);
     }
 
     @Override

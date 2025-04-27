@@ -58,6 +58,9 @@
     }
     .item-footer {
         margin-top: 8px;
+        display: flex; /* Thêm display flex để căn chỉnh nút */
+        justify-content: space-between; /* Đẩy nút xem chi tiết và edit ra hai đầu */
+        align-items: center; /* Căn chỉnh các nút theo chiều dọc nếu cần */
     }
     .button.secondary {
         background-color: #eee;
@@ -65,6 +68,17 @@
         padding: 6px 12px;
         text-decoration: none;
         border-radius: 4px;
+    }
+    .edit-button {
+        background-color: #4CAF50; /* Màu xanh lá cây */
+        color: white;
+        padding: 6px 12px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    .edit-button:hover {
+        background-color: #45a049; /* Màu xanh lá cây đậm hơn khi hover */
     }
 
     .search-filter-bar {
@@ -107,6 +121,18 @@
 
     .filter-button:hover {
         background-color: #0056b3;
+    }
+    .delete-button {
+        background-color: #f44336; /* Màu đỏ */
+        color: white;
+        padding: 6px 12px;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+        margin-right: 8px; /* Thêm khoảng cách với nút Edit */
+    }
+    .delete-button:hover {
+        background-color: #d32f2f; /* Màu đỏ đậm hơn khi hover */
     }
 </style>
 
@@ -159,7 +185,7 @@
                                 </c:when>
                                 <c:otherwise>
                                     <c:if test="${item.is_for_rent}">
-                                        <div>✅ Cho thuê (tính theo ngày): 
+                                        <div>✅ Cho thuê (tính theo ngày):
                                             <span style="color: #e53935; font-weight: bold;">
                                                 <fmt:formatNumber value="${item.rent_price}" type="currency"/>
                                             </span>
@@ -181,6 +207,12 @@
 
                         <div class="item-footer">
                             <a href="${pageContext.request.contextPath}/ItemURL?service=viewItem&item_id=${item.item_id}" class="button secondary">Xem chi tiết</a>
+                            <%-- Kiểm tra nếu ID người đăng trùng với ID người dùng đang đăng nhập thì hiện nút Edit --%>
+                            <c:if test="${sessionScope.loggedInUser.student_id == item.student_id}">
+                                <a href="${pageContext.request.contextPath}/DeleteItemServlet?item_id=${item.item_id}" class="delete-button"
+                                   onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</a>
+                                <a href="${pageContext.request.contextPath}/ItemURL?service=updateItem&item_id=${item.item_id}" class="edit-button">Edit</a>
+                            </c:if>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class DAOStudent extends DAOConnect {
@@ -12,13 +13,14 @@ public class DAOStudent extends DAOConnect {
     public int addStudent(Student student) {
         int n = 0;
         String sql = "INSERT INTO [dbo].[students] " +
-                     "([email], [password], [full_name]) " +
-                     "VALUES (?, ?, ?)";
+                     "([email], [password], [full_name], [facebook_url]) " +
+                     "VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setString(1, student.getEmail());
             pre.setString(2, student.getPassword());
             pre.setString(3, student.getFull_name());
+            pre.setString(4, student.getFacebook_url());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -37,6 +39,7 @@ public class DAOStudent extends DAOConnect {
                 student.setEmail(rs.getString("email"));
                 student.setPassword(rs.getString("password"));
                 student.setFull_name(rs.getString("full_name"));
+                student.setFacebook_url("facebook_url");
                 vector.add(student);
             }
         } catch (SQLException ex) {
@@ -61,14 +64,15 @@ public class DAOStudent extends DAOConnect {
     public int updateStudent(Student student) {
         int n = 0;
         String sql = "UPDATE [dbo].[students] " +
-                     "SET [email] = ?, [password] = ?, [full_name] = ? " +
+                     "SET [email] = ?, [password] = ?, [full_name] = ?, [facebook_url] = ? " +
                      "WHERE [student_id] = ?";
         try {
             PreparedStatement pre = connection.prepareStatement(sql);
             pre.setString(1, student.getEmail());
             pre.setString(2, student.getPassword());
             pre.setString(3, student.getFull_name());
-            pre.setInt(4, student.getStudent_id());
+            pre.setString(4, student.getFacebook_url());
+            pre.setInt(5, student.getStudent_id());
             n = pre.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -87,4 +91,36 @@ public class DAOStudent extends DAOConnect {
         Vector<Student> vector = getStudents(sql);
         return vector.isEmpty() ? null : vector.get(0);
     }
+    
+    public static ArrayList<Student> getAllStudentsForAdmin() {
+    DAOConnect db = DAOConnect.getInstance();
+    ArrayList<Student> list = new ArrayList<>();
+
+    try {
+        String sql = "SELECT * FROM students WHERE student_id > 1";
+        PreparedStatement ps = db.getConnection().prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Student student = new Student();
+            student.setStudent_id(rs.getInt("student_id"));
+            student.setEmail(rs.getString("email"));
+            student.setPassword(rs.getString("password"));
+            student.setFull_name(rs.getString("full_name"));
+            student.setFacebook_url("facebook_url");
+            list.add(student);
+        }
+
+        // Đảm bảo đóng các tài nguyên
+        if (rs != null) rs.close();
+        if (ps != null) ps.close();
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Có thể log lỗi ở đây
+    }
+
+    return list; // Luôn trả về một ArrayList (có thể rỗng)
+}
+    
 }

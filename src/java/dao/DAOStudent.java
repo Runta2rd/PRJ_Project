@@ -39,7 +39,7 @@ public class DAOStudent extends DAOConnect {
                 student.setEmail(rs.getString("email"));
                 student.setPassword(rs.getString("password"));
                 student.setFull_name(rs.getString("full_name"));
-                student.setFacebook_url("facebook_url");
+                student.setFacebook_url(rs.getString("facebook_url")); // (đúng - lấy dữ liệu DB)
                 vector.add(student);
             }
         } catch (SQLException ex) {

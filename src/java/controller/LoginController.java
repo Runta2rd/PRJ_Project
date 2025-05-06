@@ -25,9 +25,14 @@ public class LoginController extends HttpServlet {
 
             if (student != null && student.getPassword().equals(password)) {
                 HttpSession session = request.getSession();
-                // Sử dụng "loggedInUser" thay vì "user" để thống nhất
                 session.setAttribute("loggedInUser", student);
-                response.sendRedirect("index.jsp"); // Redirect to the home page
+
+                // Kiểm tra điều kiện chuyển hướng admin
+                if (email.equals("admin@fpt.edu.vn") || student.getStudent_id() == 1) {
+                    response.sendRedirect("AdminURL?service=listStudents");
+                } else {
+                    response.sendRedirect("index.jsp"); // Redirect to the home page for regular users
+                }
             } else {
                 request.setAttribute("errorMessage", "Invalid email or password.");
                 request.getRequestDispatcher("students/login.jsp").forward(request, response);

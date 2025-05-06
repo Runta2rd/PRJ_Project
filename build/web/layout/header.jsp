@@ -24,12 +24,12 @@
                     </c:if>
                     <c:if test="${sessionScope.loggedInUser != null}">
                         <li><a href="${pageContext.request.contextPath}/ItemURL?service=insertItem">Đăng Tin</a></li>
-                        <li><a href="${pageContext.request.contextPath}/views/items/create.jsp">Đăng tin (dự bị)</a></li>
+<!--                        <li><a href="${pageContext.request.contextPath}/views/items/create.jsp">Đăng tin (dự bị)</a></li>-->
                         <li><a href="${pageContext.request.contextPath}/logout">Đăng Xuất</a></li>
                         <li>Chào, <c:out value="${sessionScope.loggedInUser.full_name}"></c:out></li>
                         <%-- Assuming 'Admin' is a specific full name for admin users --%>
                         <c:if test="${sessionScope.loggedInUser.full_name == 'Admin'}">
-                            <li><a href="${pageContext.request.contextPath}/AdminURL">Admin</a></li>
+                            <li><a href="${pageContext.request.contextPath}/AdminURL?service=listStudents">Admin</a></li>
                         </c:if>
                     </c:if>
                 </ul>
